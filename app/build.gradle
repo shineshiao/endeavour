@@ -41,6 +41,32 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    flavorDimensions "mode"
+
+    productFlavors {
+        dev {
+            dimension "mode"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "Simple Endeavour Dev"
+            buildConfigField "String", "API_BASE_URL", "\"https://run.mocky.io/v3/\""
+            buildConfigField "String", "ENDPOINT_PRODUCT_LIST", "\"2f06b453-8375-43cf-861a-06e95a951328\""
+            buildConfigField "Integer", "LOADER_EXPIRED_TIME", "30"
+            buildConfigField "String", "API_CONTENT_TYPE", "\"application/content-type;charset=UTF-8\""
+            buildConfigField "String", "SHARED_PREFERENCE_FILE_NAME", "\"SIMPLE_ENDEAVOUR_DEV_PREFs\""
+        }
+        production {
+            dimension "mode"
+            applicationIdSuffix ".pro"
+            resValue "string", "app_name", "Simple Endeavor"
+            buildConfigField "String", "API_BASE_URL", "\"https://run.mocky.io/v3/\""
+            buildConfigField "String", "ENDPOINT_PRODUCT_LIST", "\"2f06b453-8375-43cf-861a-06e95a951328\""
+            buildConfigField "Integer", "LOADER_EXPIRED_TIME", "30"
+            buildConfigField "String", "API_CONTENT_TYPE", "\"application/content-type;charset=UTF-8\""
+            buildConfigField "String", "SHARED_PREFERENCE_FILE_NAME", "\"SIMPLE_ENDEAVOUR_PROD_PREFs\""
+        }
+    }
+
 }
 
 dependencies {
