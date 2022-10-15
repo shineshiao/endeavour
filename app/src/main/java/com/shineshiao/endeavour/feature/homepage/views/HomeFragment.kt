@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -14,7 +15,6 @@ import com.shineshiao.endeavour.databinding.FragmentHomeBinding
 import com.shineshiao.endeavour.feature.common.adapter.ProductsAdapter
 import com.shineshiao.endeavour.feature.homepage.viewmodels.HomeViewModel
 import com.shineshiao.endeavour.model.ProductModel
-import com.shineshiao.endeavour.util.LogUtil
 import com.shineshiao.endeavour.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -94,7 +94,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                 ) {
                     if (actionHolder == ProductsAdapter.ActionHolder.SELECTED_ITEM) {
                         if (data is ProductModel) {
-                            LogUtil.showToast(requireContext(), "Open Product Detail : ${data.title}")
+                            view?.findNavController()?.navigate(R.id.action_homeFragment_to_productDetailFragment)
                         }
                     }
                     if (actionHolder == ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE) {
