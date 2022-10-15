@@ -4,10 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.shineshiao.endeavour.R
 import com.shineshiao.endeavour.base.BaseFragment
+import com.shineshiao.endeavour.base.ItemHolderListener
 import com.shineshiao.endeavour.databinding.FragmentHomeBinding
+import com.shineshiao.endeavour.feature.common.adapter.ProductsAdapter
 import com.shineshiao.endeavour.feature.homepage.viewmodels.HomeViewModel
+import com.shineshiao.endeavour.model.ProductModel
+import com.shineshiao.endeavour.util.LogUtil
+import com.shineshiao.endeavour.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -20,6 +28,8 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    var productsAdapter: ProductsAdapter? = null
 
     companion object {
         const val tagFragment: String = "HomeFragment"
@@ -59,12 +69,38 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         super.addDataObserve()
         viewModel.productsLiveData.observe(this, { listProducts ->
             if (!listProducts.isNullOrEmpty()) {
-                // todo: add logic to load list here
+                productsAdapter?.itemList?.clear()
+                productsAdapter?.addItems(listProducts, ProductsAdapter.TypeHolder.PRODUCT)
+                productsAdapter?.notifyDataSetChanged()
             }
         })
     }
 
     private fun initAdapters() {
-        // todo: add logic to init list here
+        productsAdapter = ProductsAdapter()
+        val layoutManager = FlexboxLayoutManager(context)
+        layoutManager.flexDirection = FlexDirection.ROW
+        layoutManager.justifyContent = JustifyContent.SPACE_AROUND
+        binding.rcvFeature.layoutManager = layoutManager
+        binding.rcvFeature.addItemDecoration(SpacesItemDecoration(20))
+
+        binding.rcvFeature.adapter = productsAdapter
+        productsAdapter!!.listener =
+            object : ItemHolderListener<ProductsAdapter.ActionHolder, Any> {
+                override fun onItemHolderClicked(
+                    actionHolder: ProductsAdapter.ActionHolder,
+                    data: Any?,
+                    position: Int
+                ) {
+                    if (actionHolder == ProductsAdapter.ActionHolder.SELECTED_ITEM) {
+                        if (data is ProductModel) {
+                            LogUtil.showToast(requireContext(), "Open Product Detail : ${data.title}")
+                        }
+                    }
+                    if (actionHolder == ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE) {
+                        // todo: add to favourite list
+                    }
+                }
+            }
     }
 }
