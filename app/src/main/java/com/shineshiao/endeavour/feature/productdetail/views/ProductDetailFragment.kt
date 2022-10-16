@@ -1,6 +1,9 @@
 package com.shineshiao.endeavour.feature.productdetail.views
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.shineshiao.endeavour.R
 import com.shineshiao.endeavour.base.BaseFragment
 import com.shineshiao.endeavour.databinding.FragmentProductDetailBinding
@@ -29,5 +32,19 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
 
     override fun getTagFragment(): String {
         return tagFragment
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -33,6 +33,6 @@
         android:id="@+id/navigation_product_detail"
         android:name="com.shineshiao.endeavour.feature.productdetail.views.ProductDetailFragment"
         android:label="@string/title_details"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_product_detail" />
 
 </navigation>
