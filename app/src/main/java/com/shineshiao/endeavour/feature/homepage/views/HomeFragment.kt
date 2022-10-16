@@ -94,7 +94,8 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                 ) {
                     if (actionHolder == ProductsAdapter.ActionHolder.SELECTED_ITEM) {
                         if (data is ProductModel) {
-                            view?.findNavController()?.navigate(R.id.action_homeFragment_to_productDetailFragment)
+                            val action = HomeFragmentDirections.actionOpenProductDetail(currentProduct = data)
+                            view?.findNavController()?.navigate(action)
                         }
                     }
                     if (actionHolder == ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE) {
