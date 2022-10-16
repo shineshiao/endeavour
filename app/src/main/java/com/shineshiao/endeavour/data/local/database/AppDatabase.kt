@@ -16,12 +16,16 @@
 
 package com.shineshiao.endeavour.data.local.database
 
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.shineshiao.endeavour.data.local.database.dao.ProductDao
+import com.shineshiao.endeavour.model.ProductModel
 
 /**
  * SQLite Database for storing data.
  */
-
-abstract class AppDatabase {
+@Database(entities = [ProductModel::class], version = 1, exportSchema = false)
+// @TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
 }

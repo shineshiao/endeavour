@@ -14,10 +14,6 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseViewModel() {
 
-    private val _currentProductLiveData: MutableLiveData<ProductModel?> by lazy { MutableLiveData() }
-    val currentProductLiveData: LiveData<ProductModel?>
-        get() = _currentProductLiveData
-
     private val _productsLiveData: MutableLiveData<List<ProductModel>?> by lazy { MutableLiveData() }
     val productsLiveData: LiveData<List<ProductModel>?>
         get() = _productsLiveData
@@ -37,5 +33,10 @@ class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseVi
         interactor.getProducts().collect { productModel ->
             _productsLiveData.value = productModel
         }
+    }
+
+    fun toggleFavourite(data: ProductModel) = callSuspendInScope {
+        val newProduct = data.copy(isFavourite = !data.isFavourite)
+        interactor.toggleFavourite(newProduct).collect()
     }
 }

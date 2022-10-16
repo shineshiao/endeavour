@@ -57,7 +57,7 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
         binding.tvTitle.text = product.title
         binding.imgProduct.load(product.imageURL)
         binding.ratingBar.rating = product.ratingCount.toFloat()
-        binding.txtPrice.text = product.price[0].value.toString()
+        // binding.txtPrice.text = product.price[0].value.toString()
     }
     override fun onDestroyView() {
         super.onDestroyView()

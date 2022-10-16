@@ -5,7 +5,6 @@ import com.shineshiao.endeavour.feature.favourite.repositories.FavouriteReposito
 import com.shineshiao.endeavour.model.ProductModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
 /**
@@ -16,8 +15,6 @@ class FavouriteInteractorImpl @Inject constructor(private val repository: Favour
     FavouriteInteractor {
 
     override suspend fun getFavouriteProducts(): Flow<List<ProductModel>?> {
-        return repository.getFavouriteProducts().mapLatest { result ->
-            result.data?.products
-        }
+        return repository.getFavouriteProducts()
     }
 }

@@ -99,7 +99,9 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                         }
                     }
                     if (actionHolder == ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE) {
-                        // todo: add to favourite list
+                        if (data is ProductModel) {
+                            viewModel.toggleFavourite(data)
+                        }
                     }
                 }
             }

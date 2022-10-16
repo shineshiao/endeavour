@@ -71,6 +71,9 @@ class FavouriteFragment(override val layoutId: Int = R.layout.fragment_favourite
                 productsAdapter?.itemList?.clear()
                 productsAdapter?.addItems(listProducts, ProductsAdapter.TypeHolder.PRODUCT)
                 productsAdapter?.notifyDataSetChanged()
+                binding.empty.visibility = View.GONE
+            } else {
+                binding.empty.visibility = View.VISIBLE
             }
         })
     }

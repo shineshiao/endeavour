@@ -17,6 +17,7 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
 
     private val favoriteStartFrame: Int = 25
     private val favoriteEndFrame: Int = 48
+
     private var isFavourite = false
     init {
         itemView.setOnClickListener {
@@ -31,12 +32,15 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
         val binding = ViewholderProductGridBinding.bind(itemView)
         binding.tvTitle.text = data.title
         binding.imgAvatar.load(data.imageURL)
-        binding.tvPrice.text = data.price[0].value.toString()
-        binding.tvMessage.text = data.price[0].message
+        // binding.tvPrice.text = data.price[0].value.toString()
+        // binding.tvMessage.text = data.price[0].message
+        isFavourite = data.isFavourite
+        updateAnimation(isFavourite)
 
         binding.imgFavorites.setMaxFrame(favoriteEndFrame)
         binding.imgFavorites.setMinFrame(favoriteStartFrame)
         binding.imgFavorites.frame = favoriteStartFrame
+
         binding.imgFavorites.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {
             }

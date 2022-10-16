@@ -6,4 +6,5 @@
     <string name="details">Details</string>
     <string name="price">Price</string>
     <string name="title_favourite">Favourite</string>
+    <string name="you_did_not_add_any_favourite_item_yet">You did not add any favourite item yet</string>
 </resources>

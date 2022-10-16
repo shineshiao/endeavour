@@ -20,4 +20,8 @@ class HomeInteractorImpl @Inject constructor(private val repository: HomeReposit
             result.data?.products
         }
     }
+
+    override suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean> {
+        return repository.toggleFavourite(productModel)
+    }
 }
