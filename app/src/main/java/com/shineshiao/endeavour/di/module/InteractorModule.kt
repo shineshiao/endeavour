@@ -1,5 +1,7 @@
 package com.shineshiao.endeavour.di.module
 
+import com.shineshiao.endeavour.feature.favourite.interactors.FavouriteInteractor
+import com.shineshiao.endeavour.feature.favourite.interactors.impl.FavouriteInteractorImpl
 import com.shineshiao.endeavour.feature.homepage.interactors.HomeInteractor
 import com.shineshiao.endeavour.feature.homepage.interactors.impl.HomeInteractorImpl
 import com.shineshiao.endeavour.feature.productdetail.interactors.ProductDetailInteractor
@@ -24,6 +26,12 @@ object InteractorModule {
     @Singleton
     @Provides
     fun provideProductDetailInteractor(interactor: ProductDetailInteractorImpl): ProductDetailInteractor {
+        return interactor
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavouriteInteractor(interactor: FavouriteInteractorImpl): FavouriteInteractor {
         return interactor
     }
 }

@@ -1,5 +1,7 @@
 package com.shineshiao.endeavour.di.module
 
+import com.shineshiao.endeavour.feature.favourite.repositories.FavouriteRepository
+import com.shineshiao.endeavour.feature.favourite.repositories.impl.FavouriteRepositoryImpl
 import com.shineshiao.endeavour.feature.homepage.repositories.HomeRepository
 import com.shineshiao.endeavour.feature.homepage.repositories.impl.HomeRepositoryImpl
 import com.shineshiao.endeavour.feature.productdetail.repositories.ProductDetailRepository
@@ -22,6 +24,12 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideProductDetailRepository(repository: ProductDetailRepositoryImpl): ProductDetailRepository {
+        return repository
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavouriteRepository(repository: FavouriteRepositoryImpl): FavouriteRepository {
         return repository
     }
 }
