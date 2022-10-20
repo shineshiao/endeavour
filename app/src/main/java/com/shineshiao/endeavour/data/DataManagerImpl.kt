@@ -17,7 +17,15 @@ class DataManagerImpl @Inject constructor(
         return localDatabase.getProductsFlow()
     }
 
-//    override suspend fun getDogsWithCategoryFlow(category: String): Flow<List<DogModel>> {
-//        return localDatabase.getDogsWithCategoryFlow(category)
-//    }
+    override suspend fun saveProductsToDB(products: List<ProductModel>): Flow<List<ProductModel>?> {
+        return localDatabase.saveProductsToDB(products)
+    }
+
+    override suspend fun saveFavouriteProduct(product: ProductModel): Flow<Boolean> {
+        return localDatabase.saveFavouriteProduct(product)
+    }
+
+    override suspend fun getFavouriteProductsFlow(): Flow<List<ProductModel>> {
+        return localDatabase.getFavouriteProductsFlow()
+    }
 }

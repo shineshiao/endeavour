@@ -33,6 +33,7 @@
             android:layout_marginHorizontal="10dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="false"
             app:lottie_rawRes="@raw/heart" />
 
 

@@ -22,10 +22,12 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
 
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var currentProduct: ProductModel
     val args: ProductDetailFragmentArgs by navArgs()
 
     companion object {
+        private const val favoriteStartFrame: Int = 25
+        private const val favoriteEndFrame: Int = 48
         const val tagFragment: String = "ProductDetailFragment"
         fun newInstance(): ProductDetailFragment {
             val fragment = ProductDetailFragment()
@@ -50,14 +52,32 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadCurrentProductData(args.currentProduct)
+        currentProduct = args.currentProduct
+        loadCurrentProductData()
     }
 
-    private fun loadCurrentProductData(product: ProductModel) {
-        binding.tvTitle.text = product.title
-        binding.imgProduct.load(product.imageURL)
-        binding.ratingBar.rating = product.ratingCount.toFloat()
-        binding.txtPrice.text = product.price[0].value.toString()
+    override fun addDataObserve() {
+        super.addDataObserve()
+        binding.imgFavorites.setOnClickListener {
+            viewModel.toggleFavourite(currentProduct)
+            updateAnimation(!currentProduct.isFavourite)
+        }
+    }
+
+    private fun updateAnimation(isFavourite: Boolean) {
+        if (isFavourite) {
+            binding.imgFavorites.frame = favoriteEndFrame
+        } else {
+            binding.imgFavorites.frame = favoriteStartFrame
+        }
+    }
+
+    private fun loadCurrentProductData() {
+        binding.tvTitle.text = currentProduct.title
+        binding.imgProduct.load(currentProduct.imageURL)
+        binding.ratingBar.rating = currentProduct.ratingCount.toFloat()
+        updateAnimation(currentProduct.isFavourite)
+        // binding.txtPrice.text = product.price[0].value.toString()
     }
     override fun onDestroyView() {
         super.onDestroyView()

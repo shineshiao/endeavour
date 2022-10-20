@@ -1,10 +1,10 @@
 package com.shineshiao.endeavour.feature.productdetail.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shineshiao.endeavour.base.BaseViewModel
 import com.shineshiao.endeavour.feature.productdetail.interactors.ProductDetailInteractor
 import com.shineshiao.endeavour.model.ProductModel
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 /**
@@ -12,10 +12,6 @@ import javax.inject.Inject
  */
 
 class ProductDetailViewModel @Inject constructor(val interactor: ProductDetailInteractor) : BaseViewModel() {
-
-    private val _currentProductLiveData: MutableLiveData<ProductModel?> by lazy { MutableLiveData() }
-    val currentProductLiveData: LiveData<ProductModel?>
-        get() = _currentProductLiveData
 
     override fun onDidBind() {
     }
@@ -26,5 +22,10 @@ class ProductDetailViewModel @Inject constructor(val interactor: ProductDetailIn
 
     override fun addErrorObservables(): MutableList<MutableLiveData<String>> {
         return arrayListOf()
+    }
+
+    fun toggleFavourite(data: ProductModel) = callSuspendInScope {
+        val newProduct = data.copy(isFavourite = !data.isFavourite)
+        interactor.toggleFavourite(newProduct).collect()
     }
 }

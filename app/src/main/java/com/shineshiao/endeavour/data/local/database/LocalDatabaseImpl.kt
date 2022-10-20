@@ -18,7 +18,10 @@ package com.shineshiao.endeavour.data.local.database
 
 import com.shineshiao.endeavour.data.local.database.dao.ProductDao
 import com.shineshiao.endeavour.model.ProductModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -30,5 +33,28 @@ class LocalDatabaseImpl @Inject constructor(
 
     override suspend fun getProductsFlow(): Flow<List<ProductModel>> {
         return productDao.getProductsFlow()
+    }
+
+    override suspend fun saveFavouriteProduct(product: ProductModel): Flow<Boolean> {
+        return flow {
+            productDao.saveFavouriteProduct(product)
+            emit(true)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun saveProductsToDB(products: List<ProductModel>): Flow<List<ProductModel>?> {
+        return flow {
+            var newListProducts = products
+            productDao.getFavouriteProducts().forEach { favouriteItem ->
+                val item = newListProducts.firstOrNull { it.id == favouriteItem.id }
+                item?.isFavourite = true
+            }
+            productDao.saveProductsToDB(newListProducts)
+            emit(newListProducts)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getFavouriteProductsFlow(): Flow<List<ProductModel>> {
+        return productDao.getFavouriteProductsFlow()
     }
 }

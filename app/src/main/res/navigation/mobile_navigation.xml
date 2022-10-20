@@ -22,16 +22,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.shineshiao.endeavour.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.shineshiao.endeavour.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_favourite"
+        android:name="com.shineshiao.endeavour.feature.favourite.views.FavouriteFragment"
+        android:label="@string/title_favourite"
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_open_product_detail"
+            app:destination="@id/navigation_product_detail"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/wait_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/wait_anim"
+            app:popExitAnim="@anim/slide_down"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_product_detail"

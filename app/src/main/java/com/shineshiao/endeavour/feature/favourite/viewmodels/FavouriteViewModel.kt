@@ -1,18 +1,17 @@
-package com.shineshiao.endeavour.feature.homepage.viewmodels
+package com.shineshiao.endeavour.feature.favourite.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shineshiao.endeavour.base.BaseViewModel
-import com.shineshiao.endeavour.feature.homepage.interactors.HomeInteractor
+import com.shineshiao.endeavour.feature.favourite.interactors.FavouriteInteractor
 import com.shineshiao.endeavour.model.ProductModel
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 /**
- * Created by thach.nguyen on 13,10,2022
+ * Created by thach.nguyen on 16,10,2022
  */
-
-class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseViewModel() {
+class FavouriteViewModel @Inject constructor(val interactor: FavouriteInteractor) : BaseViewModel() {
 
     private val _productsLiveData: MutableLiveData<List<ProductModel>?> by lazy { MutableLiveData() }
     val productsLiveData: LiveData<List<ProductModel>?>
@@ -29,17 +28,9 @@ class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseVi
         return arrayListOf()
     }
 
-    fun getProducts() = callSuspendInScope {
-        interactor.getProducts().collect { listProducts ->
-            if (listProducts != null) {
-                saveProductsToDB(listProducts)
-            }
-        }
-    }
-
-    fun saveProductsToDB(listProducts: List<ProductModel>) = callSuspendInScope {
-        interactor.saveProductsToDB(listProducts).collect { result ->
-            _productsLiveData.value = result
+    fun getFavouriteProducts() = callSuspendInScope {
+        interactor.getFavouriteProducts().collect { productModel ->
+            _productsLiveData.value = productModel
         }
     }
 

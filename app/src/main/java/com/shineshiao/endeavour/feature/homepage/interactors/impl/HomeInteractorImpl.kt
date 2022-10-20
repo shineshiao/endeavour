@@ -20,4 +20,12 @@ class HomeInteractorImpl @Inject constructor(private val repository: HomeReposit
             result.data?.products
         }
     }
+
+    override suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean> {
+        return repository.toggleFavourite(productModel)
+    }
+
+    override suspend fun saveProductsToDB(listProducts: List<ProductModel>): Flow<List<ProductModel>?> {
+        return repository.saveProductsToDB(listProducts)
+    }
 }

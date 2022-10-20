@@ -1,4 +1,4 @@
-package com.shineshiao.endeavour.feature.homepage.views
+package com.shineshiao.endeavour.feature.favourite.views
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,31 +11,29 @@ import com.google.android.flexbox.JustifyContent
 import com.shineshiao.endeavour.R
 import com.shineshiao.endeavour.base.BaseFragment
 import com.shineshiao.endeavour.base.ItemHolderListener
-import com.shineshiao.endeavour.databinding.FragmentHomeBinding
+import com.shineshiao.endeavour.databinding.FragmentFavouriteBinding
 import com.shineshiao.endeavour.feature.common.adapter.ProductsAdapter
-import com.shineshiao.endeavour.feature.homepage.viewmodels.HomeViewModel
+import com.shineshiao.endeavour.feature.favourite.viewmodels.FavouriteViewModel
 import com.shineshiao.endeavour.model.ProductModel
 import com.shineshiao.endeavour.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Created by thach.nguyen on 13,10,2022
+ * Created by thach.nguyen on 16,10,2022
  */
-
 @AndroidEntryPoint
-class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
-    BaseFragment<HomeViewModel>() {
+class FavouriteFragment(override val layoutId: Int = R.layout.fragment_favourite) :
+    BaseFragment<FavouriteViewModel>() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentFavouriteBinding? = null
     private val binding get() = _binding!!
 
     var productsAdapter: ProductsAdapter? = null
 
     companion object {
-        const val IS_FIRST_TIME = "IS_FIRST_TIME"
-        const val tagFragment: String = "HomeFragment"
-        fun newInstance(): HomeFragment {
-            val fragment = HomeFragment()
+        const val tagFragment: String = "FavouriteFragment"
+        fun newInstance(): FavouriteFragment {
+            val fragment = FavouriteFragment()
             val args = Bundle()
             fragment.arguments = args
             return fragment
@@ -51,19 +49,14 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentFavouriteBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_FIRST_TIME, true)
     }
 
     override fun onViewLoaded() {
         super.onViewLoaded()
         initAdapters()
-        viewModel.getProducts()
+        viewModel.getFavouriteProducts()
     }
 
     override fun onDestroyView() {
@@ -78,6 +71,11 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                 productsAdapter?.itemList?.clear()
                 productsAdapter?.addItems(listProducts, ProductsAdapter.TypeHolder.PRODUCT)
                 productsAdapter?.notifyDataSetChanged()
+                binding.rcvFeature.visibility = View.VISIBLE
+                binding.empty.visibility = View.GONE
+            } else {
+                binding.rcvFeature.visibility = View.GONE
+                binding.empty.visibility = View.VISIBLE
             }
         })
     }
@@ -100,7 +98,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                 ) {
                     if (actionHolder == ProductsAdapter.ActionHolder.SELECTED_ITEM) {
                         if (data is ProductModel) {
-                            val action = HomeFragmentDirections.actionOpenProductDetail(currentProduct = data)
+                            val action = FavouriteFragmentDirections.actionOpenProductDetail(currentProduct = data)
                             view?.findNavController()?.navigate(action)
                         }
                     }
