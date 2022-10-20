@@ -42,10 +42,15 @@ class LocalDatabaseImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun removeFavouriteProduct(product: ProductModel): Flow<Boolean> {
+    override suspend fun saveProductsToDB(products: List<ProductModel>): Flow<List<ProductModel>?> {
         return flow {
-            productDao.removeFavouriteProduct(product.id)
-            emit(true)
+            var newListProducts = products
+            productDao.getFavouriteProducts().forEach { favouriteItem ->
+                val item = newListProducts.firstOrNull { it.id == favouriteItem.id }
+                item?.isFavourite = true
+            }
+            productDao.saveProductsToDB(newListProducts)
+            emit(newListProducts)
         }.flowOn(Dispatchers.IO)
     }
 

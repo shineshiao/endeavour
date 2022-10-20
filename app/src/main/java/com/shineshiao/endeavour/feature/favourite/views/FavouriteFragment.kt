@@ -71,8 +71,10 @@ class FavouriteFragment(override val layoutId: Int = R.layout.fragment_favourite
                 productsAdapter?.itemList?.clear()
                 productsAdapter?.addItems(listProducts, ProductsAdapter.TypeHolder.PRODUCT)
                 productsAdapter?.notifyDataSetChanged()
+                binding.rcvFeature.visibility = View.VISIBLE
                 binding.empty.visibility = View.GONE
             } else {
+                binding.rcvFeature.visibility = View.GONE
                 binding.empty.visibility = View.VISIBLE
             }
         })
@@ -101,7 +103,9 @@ class FavouriteFragment(override val layoutId: Int = R.layout.fragment_favourite
                         }
                     }
                     if (actionHolder == ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE) {
-                        // todo: add to favourite list
+                        if (data is ProductModel) {
+                            viewModel.toggleFavourite(data)
+                        }
                     }
                 }
             }

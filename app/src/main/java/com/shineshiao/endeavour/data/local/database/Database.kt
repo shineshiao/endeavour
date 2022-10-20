@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface Database {
     suspend fun getProductsFlow(): Flow<List<ProductModel>>
     suspend fun saveFavouriteProduct(product: ProductModel): Flow<Boolean>
-    suspend fun removeFavouriteProduct(product: ProductModel): Flow<Boolean>
+    suspend fun saveProductsToDB(products: List<ProductModel>): Flow<List<ProductModel>?>
     suspend fun getFavouriteProductsFlow(): Flow<List<ProductModel>>
 }

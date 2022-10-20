@@ -15,12 +15,15 @@ interface ProductDao {
     @Query("SELECT * from products ORDER BY id")
     fun getProductsFlow(): Flow<List<ProductModel>>
 
+    @Query("SELECT * from products WHERE isFavourite = 1 ORDER BY id")
+    fun getFavouriteProducts(): List<ProductModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveProductsToDB(products: List<ProductModel>)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveFavouriteProduct(product: ProductModel)
 
-    @Query("DELETE FROM products WHERE id =:productId")
-    fun removeFavouriteProduct(productId: String)
-
-    @Query("SELECT * FROM products ORDER BY id")
+    @Query("SELECT * FROM products WHERE isFavourite = 1 ORDER BY id")
     fun getFavouriteProductsFlow(): Flow<List<ProductModel>>
 }

@@ -39,7 +39,6 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
 
         binding.imgFavorites.setMaxFrame(favoriteEndFrame)
         binding.imgFavorites.setMinFrame(favoriteStartFrame)
-        binding.imgFavorites.frame = favoriteStartFrame
 
         binding.imgFavorites.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {
@@ -47,10 +46,6 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
 
             override fun onAnimationEnd(p0: Animator?) {
                 updateAnimation(true)
-                listener?.onItemHolderClicked(
-                    ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE,
-                    data
-                )
             }
 
             override fun onAnimationCancel(p0: Animator?) {
@@ -61,14 +56,13 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
         })
 
         binding.imgFavorites.setOnClickListener {
+            listener?.onItemHolderClicked(
+                ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE,
+                data
+            )
             if (isFavourite) {
-                listener?.onItemHolderClicked(
-                    ProductsAdapter.ActionHolder.TOGGLE_FAVOURITE,
-                    data
-                )
                 updateAnimation(false)
             } else {
-
                 binding.imgFavorites.playAnimation()
             }
             isFavourite = !isFavourite

@@ -8,4 +8,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface FavouriteInteractor {
     suspend fun getFavouriteProducts(): Flow<List<ProductModel>?>
+    suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean>
 }

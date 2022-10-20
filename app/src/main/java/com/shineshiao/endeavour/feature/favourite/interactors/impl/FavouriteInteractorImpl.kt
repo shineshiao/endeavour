@@ -17,4 +17,8 @@ class FavouriteInteractorImpl @Inject constructor(private val repository: Favour
     override suspend fun getFavouriteProducts(): Flow<List<ProductModel>?> {
         return repository.getFavouriteProducts()
     }
+
+    override suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean> {
+        return repository.toggleFavourite(productModel)
+    }
 }

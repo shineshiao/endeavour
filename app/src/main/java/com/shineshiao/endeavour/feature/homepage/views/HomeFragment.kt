@@ -32,6 +32,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     var productsAdapter: ProductsAdapter? = null
 
     companion object {
+        const val IS_FIRST_TIME = "IS_FIRST_TIME"
         const val tagFragment: String = "HomeFragment"
         fun newInstance(): HomeFragment {
             val fragment = HomeFragment()
@@ -52,6 +53,11 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_FIRST_TIME, true)
     }
 
     override fun onViewLoaded() {

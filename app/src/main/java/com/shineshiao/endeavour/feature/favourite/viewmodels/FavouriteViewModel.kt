@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.shineshiao.endeavour.base.BaseViewModel
 import com.shineshiao.endeavour.feature.favourite.interactors.FavouriteInteractor
 import com.shineshiao.endeavour.model.ProductModel
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 /**
@@ -31,5 +32,10 @@ class FavouriteViewModel @Inject constructor(val interactor: FavouriteInteractor
         interactor.getFavouriteProducts().collect { productModel ->
             _productsLiveData.value = productModel
         }
+    }
+
+    fun toggleFavourite(data: ProductModel) = callSuspendInScope {
+        val newProduct = data.copy(isFavourite = !data.isFavourite)
+        interactor.toggleFavourite(newProduct).collect()
     }
 }

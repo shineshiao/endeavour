@@ -30,8 +30,16 @@ class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseVi
     }
 
     fun getProducts() = callSuspendInScope {
-        interactor.getProducts().collect { productModel ->
-            _productsLiveData.value = productModel
+        interactor.getProducts().collect { listProducts ->
+            if (listProducts != null) {
+                saveProductsToDB(listProducts)
+            }
+        }
+    }
+
+    fun saveProductsToDB(listProducts: List<ProductModel>) = callSuspendInScope {
+        interactor.saveProductsToDB(listProducts).collect { result ->
+            _productsLiveData.value = result
         }
     }
 

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class MemoryDatabaseImpl @Inject constructor() : Database {
-    private val products = LinkedList<ProductModel>()
+    private var products = LinkedList<ProductModel>()
 
     override suspend fun getProductsFlow(): Flow<List<ProductModel>> {
         return flow {
@@ -30,10 +30,17 @@ class MemoryDatabaseImpl @Inject constructor() : Database {
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun removeFavouriteProduct(product: ProductModel): Flow<Boolean> {
+    override suspend fun saveProductsToDB(newListProducts: List<ProductModel>): Flow<List<ProductModel>?> {
         return flow {
-            products.remove(product)
-            emit(true)
+            val listFavorites = products.filter { it.isFavourite }
+            listFavorites.forEach { favouriteItem ->
+                run {
+                    val item = newListProducts.firstOrNull { it.id == favouriteItem.id }
+                    item?.isFavourite = true
+                }
+            }
+            products = newListProducts as LinkedList<ProductModel>
+            emit(products)
         }.flowOn(Dispatchers.IO)
     }
 

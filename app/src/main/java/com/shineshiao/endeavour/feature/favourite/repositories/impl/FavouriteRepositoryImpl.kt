@@ -19,4 +19,8 @@ class FavouriteRepositoryImpl @Inject constructor(
     override suspend fun getFavouriteProducts(): Flow<List<ProductModel>> {
         return dataManager.getFavouriteProductsFlow()
     }
+
+    override suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean> {
+        return dataManager.saveFavouriteProduct(productModel)
+    }
 }

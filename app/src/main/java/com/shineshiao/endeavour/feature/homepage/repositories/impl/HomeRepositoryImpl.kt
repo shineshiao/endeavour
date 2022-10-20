@@ -28,10 +28,10 @@ class HomeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean> {
-        return if (productModel.isFavourite) {
-            dataManager.saveFavouriteProduct(productModel)
-        } else {
-            dataManager.removeFavouriteProduct(productModel)
-        }
+        return dataManager.saveFavouriteProduct(productModel)
+    }
+
+    override suspend fun saveProductsToDB(listProducts: List<ProductModel>): Flow<List<ProductModel>?> {
+        return dataManager.saveProductsToDB(listProducts)
     }
 }

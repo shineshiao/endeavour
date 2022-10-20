@@ -11,4 +11,5 @@ import kotlinx.coroutines.flow.Flow
 interface HomeRepository {
     suspend fun getProducts(): Flow<BaseNetworkResult<ProductResponse>>
     suspend fun toggleFavourite(productModel: ProductModel): Flow<Boolean>
+    suspend fun saveProductsToDB(listProducts: List<ProductModel>): Flow<List<ProductModel>?>
 }
