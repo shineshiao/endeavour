@@ -18,6 +18,10 @@ class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseVi
     val productsLiveData: LiveData<List<ProductModel>?>
         get() = _productsLiveData
 
+    private val _toggleFavouriteLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val toggleFavouriteLiveData: LiveData<Boolean>
+        get() = _toggleFavouriteLiveData
+
     override fun onDidBind() {
     }
 
@@ -45,6 +49,8 @@ class HomeViewModel @Inject constructor(val interactor: HomeInteractor) : BaseVi
 
     fun toggleFavourite(data: ProductModel) = callSuspendInScope {
         val newProduct = data.copy(isFavourite = !data.isFavourite)
-        interactor.toggleFavourite(newProduct).collect()
+        interactor.toggleFavourite(newProduct).collect { isSuccess ->
+            _toggleFavouriteLiveData.value = isSuccess
+        }
     }
 }
