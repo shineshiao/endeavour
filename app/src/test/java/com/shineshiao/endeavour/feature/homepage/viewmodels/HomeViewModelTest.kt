@@ -168,6 +168,4 @@ class HomeViewModelTest : BaseViewModelTest<HomeViewModel>() {
             job.cancel()
         }
     }
-
-    fun testGetInteractor() {}
 }
