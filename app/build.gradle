@@ -68,6 +68,85 @@ android {
         }
     }
 
+    testOptions {
+        animationsDisabled true
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+                excludes = ['jdk.internal.*']
+            }
+        }
+    }
+
+    project.afterEvaluate {
+        // Grab all build types and product flavors
+        def buildTypes = android.buildTypes.collect { type -> type.name }
+        def productFlavors = android.productFlavors.collect { flavor -> flavor.name }
+
+        // When no product flavors defined, use empty
+        if (!productFlavors) productFlavors.add('')
+
+        productFlavors.each { productFlavorName ->
+            buildTypes.each { buildTypeName ->
+                def sourceName
+                if (!productFlavorName) {
+                    sourceName = "${buildTypeName}"
+                } else {
+                    sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+                }
+                def testTaskName = "test${sourceName.capitalize()}UnitTest"
+
+                // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+                task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+                    group = "Reporting"
+                    description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+                    def excludes = [
+                            '**/R.class',
+                            '**/R$*.class',
+                            '**/Manifest*.*',
+                            'android/**/*.*',
+                            '**/BuildConfig.*',
+                            '**/*$ViewBinder*.*',
+                            '**/*$ViewInjector*.*',
+                            '**/Lambda$*.class',
+                            '**/Lambda.class',
+                            '**/*Lambda.class',
+                            '**/*Lambda*.class',
+                            '**/*Module.*',
+                            '**/*Dagger*.*',
+                            '**/*_MembersInjector.class',
+                            '**/Dagger*Component*.class',
+                            '**/Dagger*Subcomponent*.class',
+                            '**/*Subcomponent$Builder.class',
+                            '**/*Module_*Factory.class',
+                            '**/*_Factory.class'
+                    ]
+                    def classesPath = "$project.buildDir/tmp/kotlin-classes/${sourceName}/com/shineshiao/endeavour"
+                    def debugTreeFeature = fileTree(dir: "$classesPath/feature", include: ['**/*Impl.class', '**/viewmodels/*ViewModel.class'])
+                    def debugTreeRepository = fileTree(dir: "$classesPath/repositories/impl")
+                    //def debugTreeUtils = fileTree(dir: "$classesPath/utils", excludes: ['**/ui/*.class', '**/dialogs/*.class'])
+
+                    def mainSrc = "$project.projectDir/src/main/java"
+                    sourceDirectories.setFrom(files([mainSrc]))
+                    classDirectories.setFrom(files([debugTreeFeature, debugTreeRepository]))
+
+                    def jacocoPathExecute = "jacoco/${testTaskName}.exec"
+                    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
+                            jacocoPathExecute, 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
+                    ], excludes: excludes))
+
+                    reports {
+                        xml.enabled = true
+                        html.enabled = true
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {

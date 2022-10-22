@@ -1,5 +1,6 @@
 package com.shineshiao.endeavour.feature.productdetail.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shineshiao.endeavour.base.BaseViewModel
 import com.shineshiao.endeavour.feature.productdetail.interactors.ProductDetailInteractor
@@ -12,6 +13,9 @@ import javax.inject.Inject
  */
 
 class ProductDetailViewModel @Inject constructor(val interactor: ProductDetailInteractor) : BaseViewModel() {
+    private val _toggleFavouriteLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val toggleFavouriteLiveData: LiveData<Boolean>
+        get() = _toggleFavouriteLiveData
 
     override fun onDidBind() {
     }
@@ -26,6 +30,8 @@ class ProductDetailViewModel @Inject constructor(val interactor: ProductDetailIn
 
     fun toggleFavourite(data: ProductModel) = callSuspendInScope {
         val newProduct = data.copy(isFavourite = !data.isFavourite)
-        interactor.toggleFavourite(newProduct).collect()
+        interactor.toggleFavourite(newProduct).collect { isSuccess ->
+            _toggleFavouriteLiveData.value = isSuccess
+        }
     }
 }
