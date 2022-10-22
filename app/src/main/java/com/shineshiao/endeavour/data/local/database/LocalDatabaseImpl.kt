@@ -28,7 +28,7 @@ import javax.inject.Inject
  * Data manager class that handles data manipulation between the database and the UI.
  */
 class LocalDatabaseImpl @Inject constructor(
-    private val productDao: ProductDao
+    private val productDao: ProductDao,
 ) : Database {
 
     override suspend fun getProductsFlow(): Flow<List<ProductModel>> {

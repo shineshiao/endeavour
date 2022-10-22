@@ -32,8 +32,8 @@ class ProductViewHolder(parent: ViewGroup) : BaseViewHolder<ProductModel,
         val binding = ViewholderProductGridBinding.bind(itemView)
         binding.tvTitle.text = data.title
         binding.imgAvatar.load(data.imageURL)
-        // binding.tvPrice.text = data.price[0].value.toString()
-        // binding.tvMessage.text = data.price[0].message
+        binding.tvPrice.text = data.price[0].value.toString()
+        binding.tvMessage.text = data.price[0].message
         isFavourite = data.isFavourite
         updateAnimation(isFavourite)
 
