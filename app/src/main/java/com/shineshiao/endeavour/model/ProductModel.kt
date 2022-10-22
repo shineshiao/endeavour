@@ -16,7 +16,7 @@ data class ProductModel(
     val imageURL: String = "",
     val title: String = "",
     val brand: String = "",
-    // val price: List<PriceModel>,
+    val price: List<PriceModel>,
     val ratingCount: Double,
     var isFavourite: Boolean = false
 ) : Parcelable

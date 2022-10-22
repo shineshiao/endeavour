@@ -23,7 +23,7 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var currentProduct: ProductModel
-    val args: ProductDetailFragmentArgs by navArgs()
+    private val args: ProductDetailFragmentArgs by navArgs()
 
     companion object {
         private const val favoriteStartFrame: Int = 25
@@ -76,6 +76,8 @@ class ProductDetailFragment(override val layoutId: Int = R.layout.fragment_produ
         binding.tvTitle.text = currentProduct.title
         binding.imgProduct.load(currentProduct.imageURL)
         binding.ratingBar.rating = currentProduct.ratingCount.toFloat()
+        binding.txtPrice.text = currentProduct.price[0].value.toString()
+        binding.txtNote.text = currentProduct.price[0].message.toString()
         updateAnimation(currentProduct.isFavourite)
         // binding.txtPrice.text = product.price[0].value.toString()
     }

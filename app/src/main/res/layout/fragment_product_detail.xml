@@ -50,7 +50,7 @@
         android:numStars="5"
         android:stepSize="0.5"
         style="?android:attr/ratingBarStyleIndicator"
-        android:progressTint="#FFCC01"
+        android:progressTint="?android:attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_product"
@@ -100,6 +100,35 @@
             android:paddingHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/txt_price_title"
+            tools:text="Description of product"
+            />
+        <Space
+            android:id="@+id/space"
+            app:layout_constraintTop_toBottomOf="@id/txt_price_title"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+        <TextView
+            android:id="@+id/txt_note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="120dp"
+            android:paddingHorizontal="16dp"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:text="@string/note"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/space"
+
+            />
+
+        <TextView
+            android:id="@+id/txt_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Body1"
+
+            android:paddingHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txt_note_title"
             tools:text="Description of product"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
