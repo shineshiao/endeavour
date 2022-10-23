@@ -5,6 +5,7 @@
     android:background="@color/grey"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_favourite"
     tools:context=".feature.homepage.views.HomeFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_feature"
